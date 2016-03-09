@@ -1,12 +1,13 @@
 #! /usr/bin/perl
 
 use v5.10;
+use 5.012;
 
 my @array = qw#hoge hoge2 hoge3 hoge4#;
 print "@array[0]\n";
 
 sub call {
-  $n += 1;
+  my $n += 1;
   print "Hello world! $n\n";
 }
 &call;
@@ -14,11 +15,11 @@ sub call {
 &call;
 
 sub sos {
-  $n = 5;
-  $h = 3;
+  my $n = 5;
+  my $h = 3;
   $n+$h;
 }
-$sum =  5+&sos;
+my $sum =  5+&sos;
 say $sum;
 
 sub max {
@@ -39,5 +40,41 @@ sub job {
     $_[1]
   }
 }
+say &job('haha','haha');
 
-say &job(haha,haha);
+my ($num,@num) = &lop(3,4,5,6,7,8,9);
+sub lop {
+  my ($hoge,@fuga) = shift @_;
+  return $hoge,@fuga;
+}
+say $num;
+say @num;
+
+my $max = &lop2(3,4,5,6,7,8,9);
+sub lop2 {
+  my $hoge = shift @_;
+  foreach (@_) {
+    if ($_>$hoge) {
+      $hoge = $_;
+    }
+  }
+  $hoge;
+}
+say $max;
+
+sub division {
+  $_[0] / $_[1];
+}
+my $number2 = division 10, 2;
+say $number2;
+
+sub list {
+  my ($a,$b) = @_;
+  if ($a < $b) {
+    $a..$b;
+  }
+  else {
+    reverse $b..$a;
+  }
+}
+say &list(11,6);
