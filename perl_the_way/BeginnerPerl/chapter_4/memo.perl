@@ -78,3 +78,24 @@ sub list {
   }
 }
 say &list(11,6);
+
+sub marine {
+  state $n = 0;
+  $n +=1;
+  say $n;
+}
+&marine;
+&marine;
+
+ru_sum(5..8);
+
+sub ru_sum {
+  state $sum = 0;
+  state @number;
+
+  foreach (@_) {
+    push @number, $_;
+    $sum += $_;
+  }
+  say "ナンバー@number　合計$sum";
+}
