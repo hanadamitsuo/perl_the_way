@@ -75,3 +75,21 @@ $name = 'Fred Flintstone and Wlima Flintstone';
 if ($name =~ m/(?<last_name>\w+) and \w+ \k<last_name>/) {
   say "I SAY $+{last_name}";
 }
+
+if ("Hello there, ngihtbor" =~ /\s(\w+),/) {
+  say "That actually";
+}
+
+if ("Hello there, negighbor" =~ /\s(\w+),/p) {
+  say "That was (${^PREMATCH}))(${^MATCH})(${^POSTMATCH}).\n";
+}
+
+while (<>) {
+  chomp;
+  if (/haha/) {
+    say "MATCH |$'<$&>$'|\n";
+  }
+  else {
+    say "NO MATCH |$_|\n";
+  }
+}
