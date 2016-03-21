@@ -68,3 +68,52 @@ for ($i = 10; $i >= 1; $i--) {
 #while (1) {
 #  say "BBBBB";
 #}
+
+for (1..10) {
+  say "$_";
+}
+
+while (<STDIN>) {
+  if (/__END__/) {
+    last;
+  }
+  elsif (/fred/) {
+    print;
+  }
+}
+
+$num = 0;
+@row = qw/11 22 : 33/;
+foreach (@row) {
+  next if /\W/;
+  $num += 1;
+}
+say "$num";
+
+$error = 0;
+@list = qw/aa bb cc dd/;
+foreach (@list) {
+  say "$_";
+  chomp(my $try = <STDIN>);
+  if ($try ne $_) {
+    $error++;
+    redo;
+  }
+}
+
+$ken = 1;
+$bl = $ken ? 'OK' : 'NG';
+say "$bl";
+
+$hour = 10;
+if ( (9 <= $hour) && ($hour < 17)) {
+  say "WORK";
+}
+
+$undef;
+$go = 1;
+$to = $undef || $go;
+say "$to";
+
+$ver = $ENV{VERBOSE} // 1;
+say "$ver";
