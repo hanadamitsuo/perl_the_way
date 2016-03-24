@@ -37,3 +37,30 @@ if (-r $file_name) {
 if (-w _) {
   say "OK!!!!";
 }
+
+if (-r -w $file_name) {
+  say "both file";
+}
+
+if ((-d $file_name and -s ) < 512 ) {
+  say "less 512";
+}
+
+($dev, $ino, $mode, $nlink, $uid, $gid, $rdev, $size, $atime, $mime, $ctime, $blksize, $blocks) = stat($file_name);
+say "$dev";
+say "$ino";
+say "$mode";
+say "$nlink";
+say "$uid";
+say "$gid";
+say "$rdev";
+say "$size";
+say "$atime";
+say "$mime";
+say "$ctime";
+say "$blksize";
+say "$blocks";
+
+$timestamp = 1180630098;
+$date = localtime $timestamp;
+say $date;
