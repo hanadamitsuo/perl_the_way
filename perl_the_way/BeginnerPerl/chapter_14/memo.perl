@@ -46,3 +46,11 @@ say @numbers;
 sub by_score { $score{$b} <=> $score{$a} }
 @winners = sort by_score keys %score;
 say @winners;
+
+sub by_score_and_name {
+  $score{$b} <=> $score{$a} or $a cmp $b 
+}
+@winners = sort by_score_and_name keys %score;
+say @winners;
+
+
