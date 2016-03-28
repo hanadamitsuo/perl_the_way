@@ -92,3 +92,27 @@ given ($ARGV[0]) {
   when (/Fred/i) { say 'fred i';}
   default { say 'see Fred';}
 }
+
+$boolean = 1;
+given ($ARGV[0]) {
+  when (! $boolean) { say 'name has fred';}
+  when (! /Fred/i) { say 'Does not fred';}
+}
+
+@names = qw/fred ken kana taro/;
+foreach (@names) {
+  when ('Fred') { say 'fred'; continue}
+  when (/\AFred/) { say '\Afred'; continue}
+  when (/Fred/i) { say 'fred i';}
+  default { say 'see Fred';}
+}
+
+@names = qw/fred ken kana taro/;
+foreach (@names) {
+  say "naem $_";
+
+  when ('Fred') { say 'fred'; continue}
+  when (/\AFred/) { say '\Afred'; continue}
+  when (/Fred/i) { say 'fred i';}
+  default { say 'see Fred';}
+}
