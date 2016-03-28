@@ -161,3 +161,56 @@ say @odd_numbers;
 $str = grep /\bfred\b/i, 'dsadfredsasa';
 say "$str OK";
 
+sub big_money {
+  $num = sprintf "%.2f", shift @_;
+  1 while $num =~ s/^(-?\d+)(\d\d\d)/$1,$2/;
+  $num =~ s/^(-?)/$1\$/;
+  $num;
+}
+
+@date = (4.75, 1.5, 2, 1234, 6.9456, 12345678.9, 29.95);
+@format_date = map { &big_money($_) } @date;
+say @format_date;
+
+print "The money num:\n", map { sprintf("%25s\n", $_) } @format_date;
+
+print "Some powers of two are:\n", map "\t" . ( 2 ** $_) . "\n", 0..15;
+
+@char = qw(pebbles dajpo yhntg apebBlesdff);
+$first_match;
+foreach (@char) {
+  if (/\bpebbles\b/i) {
+    $first_match = $_;
+    last;
+  }
+}
+say $first_match;
+
+use List::Util qw(first);
+$first_match = first{ /\bpebbles\b/i } @char;
+say $first_match;
+
+use List::Util qw(sum);
+$total = sum(1..1000);
+say $total;
+
+use List::Util qw(max);
+$max = max(3, 5, 10, 4, 6);
+say $max;
+
+use List::MoreUtils qw(natatime);
+
+@array = qw(1 23 4 56);
+$iterator = natatime 3, @array;
+while( @triad = $iterator->()) {
+  say "Got @triad";
+}
+
+use List::MoreUtils qw(mesh);
+
+@abc = 'a' .. 'z';
+@num = 1 .. 20;
+@dio = qw(dino);
+
+@array = mesh @abc,@num,@dio;
+say @array;
