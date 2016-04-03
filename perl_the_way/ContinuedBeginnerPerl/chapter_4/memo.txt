@@ -1,0 +1,126 @@
+#! /usr/bin/perl
+
+use v5.10;
+
+@req = qw/preserver sunscreen water_bottle jacket/;
+@ski = qw/bule_shirt hat jacket preserver sunscreen/;
+
+for $item (@req) {
+  unless (grep $item eq $_, @ski) {
+    say "skipper is missing $item";
+  }
+}
+
+@gill = qw/red_shirt hat lucky_socks water_bottle/;
+for $item (@req) {
+  unless (grep $item eq $_, @gill) {
+    say "gill is missing $item";
+  }
+}
+
+sub check_required_items {
+  $who = shift;
+  @req = qw/preserver sunscreen water_bottle jacket/;
+  
+  for $item (@req) {
+    unless (grep $item eq $_, @_) {
+      say "$who is missing $item";
+    }
+  }
+}
+@gill = qw/red_shirt hat lucky_socks water_bottle/;
+check_required_items('gill', @gill);
+
+check_required_items('ski', @ski);
+
+$re_ski = \@ski;
+say $re_ski;
+
+$se_re_ski = $re_ski;
+
+if ($se_re_ski == $re_ski){
+  say "reference";
+}
+
+sub check_required_items2 {
+  $who = shift;
+  $items = shift;
+
+  @req = qw/preserver sunscreen water_bottle jacket/;
+  
+  for $item (@req) {
+    unless (grep $item eq $_, @{$items}) {
+      say "$who is missing $item";
+    }
+  }
+}
+
+@ski2 = qw/bule_shirt hat jacket preserver sunscreen/;
+check_required_items2('ski',\@ski2);
+
+sub check_required_items3 {
+  @req = qw/preserver sunscreen water_bottle jacket/;
+  
+  for $item (@req) {
+    unless (grep $item eq $_, @{$_[1]}) {
+      say "$_[0] is missing $item";
+    }
+  }
+}
+check_required_items3('ski',\@ski2);
+
+
+sub check_required_items4 {
+  $who = shift;
+  $items = shift;
+
+  @req = qw/preserver sunscreen water_bottle jacket/;
+  
+  for $item (@req) {
+    unless (grep $item eq $_, @$items) {
+      say "$who is missing $item";
+    }
+  }
+}
+check_required_items4('ski',\@ski2);
+
+sub check_required_items5 {
+  $who = shift;
+  $items = shift;
+
+  @req = qw/preserver sunscreen water_bottle jacket/;
+  @missing = ();
+
+  for $item (@req) {
+    unless (grep $item eq $_, @$items) {
+      say "$who is missing $item";
+      push @missing, $item;
+    }
+  }
+  
+  if(@missing) {
+    say "@missing to @$items for $who";
+    push @$itmes, @missing;
+  }
+}
+check_required_items5('ski',\@ski2);
+
+@qw_ski = qw/bule_shirt hat jacket preserver sunscreen/;
+@ski_with_name = ('ski', \@qw_ski);
+@qw_gill = qw/red_shirt hat lucky_socks water_bottle/;
+@gill_with_name = ('gill', \@qw_gill);
+
+@all_with_name = (
+  \@ski_with_name,
+  \@gill_with_name,
+);
+
+say ${$all_with_name[1]}[1];
+
+for $person (@all_with_name) {
+  $who = $$person[0];
+  $provisions = $$person[1];
+  check_required_items5($who,$provisions);
+}
+
+check_required_items5(@$_) for @all_with_name;
