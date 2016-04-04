@@ -124,3 +124,49 @@ for $person (@all_with_name) {
 }
 
 check_required_items5(@$_) for @all_with_name;
+
+$root = \@all_with_name;
+say $root->[1]->[1]->[0];
+
+say $root->[1][1][0];
+
+%gilligan_info = (
+  name  => 'Gilligan',
+  hat   => 'White',
+  shirt => 'Red',
+  position => 'First Mate',
+);
+$hash_ref = \%gilligan_info;
+say $hash_ref;
+
+say $gilligan_info{name};
+say ${$hash_ref}{name};
+
+say keys %gilligan_info;
+say keys %$hash_ref;
+
+%skipper_info = (
+  name => 'Skipper',
+  hat  => 'Black',
+  shirt => 'Blue',
+  position => 'Captain',
+);
+
+@crew = (\%gilligan_info, \%skipper_info);
+say ${$crew[0]}{name};
+
+say $crew[0]->{name};
+
+$format = "%-15s %-7s %-7s %-15s\n";
+printf $format, qw(Name Shift Hat Position);
+for (@crew){
+  printf $format,
+    $_->{name},
+    $_->{shirt},
+    $_->{hat},
+    $_->{position},
+}
+
+for (@crew) {
+  printf $format, @{$_}{qw/name shirt hat position/};
+}
