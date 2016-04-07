@@ -1,0 +1,15 @@
+The Skipper
+  blue_shift
+  hat
+  jacker
+  preserver
+  sunscreen
+Professor
+  sunscreen
+  water_bottle
+  slide_rule
+Gilligan
+  red_shift
+  hat
+  lucky_socks
+  water_bottle

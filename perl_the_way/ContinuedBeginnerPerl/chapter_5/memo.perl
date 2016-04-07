@@ -203,3 +203,67 @@ $ref_to_gill_info2 = {
   },
 );
 say @crew;
+
+%provisions;
+$person;
+
+#while(<>) {
+#  if(/^(\S.*)/) {
+#    $person =$1;
+#    $provisions{$person} = [] unless exists $provisions{$person};
+#  }
+#  elsif(/^\s+(\S.*)/) {
+#    die 'No person yet!' unless defined $person;
+#    push @{ $provisions{$person} }, $1;
+#  }
+#  else {
+#    die "I don't understand: $_";
+#  }
+#}
+#say $person;
+#say %provisions;
+
+#while(<>) {
+#  if(/^(\S.*)/) {
+#    $person =$1;
+#    ## $provisions{$person} = [] unless exists $provisions{$person};
+#  }
+#  elsif(/^\s+(\S.*)/) {
+#    die 'No person yet!' unless defined $person;
+#    push @{ $provisions{$person} }, $1;
+#  }
+#  else {
+#    die "I don't understand: $_";
+#  }
+#}
+#say $person;
+#say %provisions;
+
+$not_yet;
+@$not_yet = (1,2,3);
+
+say @$not_yet;
+
+$not_yet2;
+$not_yet2 = [];
+@$not_yet2 = (1,2,3);
+
+say @$not_yet2;
+
+$top;
+$top->[2]->[4] = 'lee-lou';
+say $top->[2]->[4];
+
+%total_bytes;
+while (<>) {
+  ($source, $destination, $bytes) = split;
+  $total_bytes{$source}{$destination} += $bytes;
+}
+say "$total_bytes{$source}{$destination}";
+
+foreach $source (keys %total_bytes) {
+  for $destination (sort keys %{$total_bytes{$source}}) {
+    print "$source => $destination:","$total_bytes{$source}{$destination} byte\n"
+  }
+  print "\n";
+}
