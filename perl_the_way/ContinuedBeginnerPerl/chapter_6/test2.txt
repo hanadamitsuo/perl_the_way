@@ -1,0 +1,7 @@
+professor.hut gilligan.crew.hut 1250
+professor.hut lovey.howell.hut 910
+professor.hut gilligan.crew.hut 1250
+professor.hut lovey.howell.hut 450
+professor.hut gilligan.crew.hut 2924
+professor.hut lovey.howell.hut 1218
+professor.hut lovey.howell.hut 199
