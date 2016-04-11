@@ -95,3 +95,104 @@ for $person (qw(Gilligan Skipper Professor)) {
   push @room, $person;
 }
 say @room;
+
+$ginger = sub {
+  my $person = shift;
+  print "Ginger: hello $person\n";
+};
+$ginger->('Skiper');
+say "$ginger";
+
+%greets3 = (
+
+  Skipper => sub {
+    my $person = shift;
+    print "Skipper: hey $person\n";
+  },
+
+  Gilligan => sub {
+    my $person = shift;
+    if ($person eq 'Skipper') {
+      print "Gilligan:sir $person\n";
+    } else {
+      print "Gilligan: Hi $person\n";
+    }
+  },
+
+  Professor => sub {
+    my $person = shift;
+    print "Professor:hello $person\n";
+  },
+
+  Ginger => sub {
+    my $person = shift;
+    print "Ginger:hello $person\n";
+  },
+);
+
+@room2;
+for $person (qw(Gilligan Skipper Professor)) {
+  print "\n";
+  print "$person walk into the room\n";
+
+  for $room (@room2) {
+    $greets2{$person}->($room);
+    $greets2{$room}->($person);
+  }
+  push @room2, $person;
+}
+say "@room2";
+
+use File::Find;
+
+sub what_to_do {
+  print "$File::Find::name found\n"
+}
+my @starting = qw(.);
+
+find(\&what_to_do, @starting);
+
+@starting2 = qw(.);
+
+find(
+  sub {
+    say "$File::Find::name found\n";
+  },
+  @starting2,
+);
+
+my %callback;
+{
+  my $count = 0;
+  $callback = sub { print ++$count, ": $File::Find::name\n"};
+}
+find($callback, '.');
+
+sub create_find_callback_that_counts {
+  my $count = 0;
+  return sub { print ++$count, ": $File::Find::name\n"};
+}
+
+my $callback2 = create_find_callback_that_counts();
+find($callback2, '.');
+
+print "my bin:\n";
+find($callback2, 'bin');
+print "my lib:\n";
+find($callback2, 'lib');
+
+sub create_find_callback_that_sums_size {
+  my $total_size = 0;
+  return sub { 
+    if (@_) {
+      return $total_size;
+    } else {
+      $total_size += -s if -f;
+    }
+  };
+}
+
+$call = create_find_callback_that_sums_size();
+find($call, 'bin');
+my $total_size = $call->('dummy');
+say "total size is $total_size";
