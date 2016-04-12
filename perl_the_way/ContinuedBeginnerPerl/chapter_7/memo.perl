@@ -196,3 +196,49 @@ $call = create_find_callback_that_sums_size();
 find($call, 'bin');
 my $total_size = $call->('dummy');
 say "total size is $total_size";
+
+sub create_find_callbacks_that_sum_the_size {
+  my $total_size = 0;
+  return(sub { $total_size += -s if -f}, sub{ return $total_size });
+}
+
+my %subs;
+foreach my $dir  (qw/bin lib man/) {
+  my ($callback, $getter) = create_find_callbacks_that_sum_the_size();
+  $subs{$dir}{CALLBACK}   = $callback;
+  $subs{$dir}{GETTER}     = $getter;
+}
+
+for (keys %subs) {
+  find($subs{$_}{CALLBACK},$_);
+}
+
+for (sort keys %subs) {
+  my $sum = $subs{$_}{GETTER}->();
+  print "$_ has $sum\n";
+}
+
+sub print_bigger_than {
+  my $minimum_size = shift;
+  return sub {say "$File::Find::name\n" if -f and -s >= $minimum_size};
+}
+
+my $bigger = print_bigger_than(1024);
+find($bigger, 'bin');
+
+{
+  my $count;
+  sub count_one { ++$count }
+  sub count_so_far { return $count}
+}
+
+count_one();
+count_one();
+count_one();
+print 'we have', count_so_far(), "counts";
+
+BEGIN {
+  $countdown = 10;
+  sub count_down { $countdown-- }
+  sub count_so_far { $countdown}
+}
