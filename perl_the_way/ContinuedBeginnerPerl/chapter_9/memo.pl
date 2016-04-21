@@ -57,3 +57,53 @@ sub factorial {
   }
 }
 
+my $Skipper_bin = {
+  navigate => undef,
+  discipline_gilligan => undef,
+  eat => undef,
+};
+
+my $Skipper_home = {
+  '.cshrc' => undef,
+    'please_rescue_us.pdf' => undef,
+    'Things I Sould' => undef,
+  bin => $Skipper_bin,
+};
+say $Skipper_home;
+
+my $Skipper_home2 = {
+  '.cshrc' => undef,
+  'please_rescue_us.pdf' => undef,
+  'Things I Sould' => undef,
+
+  bin => {
+    navigate => undef,
+    discipline_gilligan => undef,
+    eat => undef,
+  },
+};
+say $Skipper_home2;
+
+sub data_for_path {
+  my $path = shift;
+  if (-f $path or -l $path) {
+    return undef;
+  }
+  if (-d $path) {
+    my %dir;
+    opendir PATH, $path or die "NO : $!";
+    my @names = readdir PATH;
+    closedir PATH;
+
+    for my $name (@names) {
+      next if $name eq '.' or $name eq '..';
+      $dir{$name} = data_for_path("$path/$name");
+    }
+    return \%dir;
+  }
+  warn "$path is dir";
+  return undef;
+}
+
+use Data::Dumper;
+print Dumper data_for_path('/Users/admin/perl/perl_the_way/ContinuedBeginnerPerl/');
