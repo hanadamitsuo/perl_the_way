@@ -51,34 +51,116 @@ sub Hores::speak {
   print "a $class goes neght\n";
 }
 
-{ package Cow;
-  sub sound { 'moooo' }
-  sub speak {
-    my $class = shift || 'Cow';
-    print "a $class goes ", $class->sound, "!\n";
+{ package Cow2;
+  sub sound2 { 'moooo' }
+  sub speak2 {
+    my $class = shift;
+    print "a $class goes ", $class->sound2, "!\n";
   }
 }
 
-Cow->speak;
+Cow2->speak2();
 
-{ package Horse;
-  sub sound { 'night' }
-  sub speak {
+{ package Horse2;
+  sub sound2 { 'night' }
+  sub speak2 {
     my $class = shift || 'Horse';
-    print "a $class goes ", $class->sound, "!\n";
+    print "a $class goes ", $class->sound2, "!\n";
   }
 }
 
-{ package Animal;
+{ package Animal2;
+  sub speak2 {
+    my $class = shift;
+    print "a $class goes ", $class->sound2, "!\n";
+  }
+}
+
+{ package Cow3;
+  @ISA = qw(Animal2);
+  sub sound2 { "moooo" }
+}
+
+Animal2::speak2('Cow3');
+
+@cow::ISA = qw(Animal);
+
+package Cow4;
+#our @ISA qw(Animal2);
+
+package Cow5;
+
+#use Animal3;
+use vars qw(@ISA);
+@ISA = qw(Animal3);
+
+package Cow6;
+use base qw(Animal2);
+
+{ package Animal5;
   sub speak {
     my $class = shift;
     print "a $class goes ", $class->sound, "!\n";
   }
 }
 
-{ package Cow;
-  @ISA = qw(Animal);
-  sub sound { "moooo" }
+{ package Mouse;
+  @ISA = qw(Animal5);
+  sub sound { 'squeak' }
+  sub speak {
+    my $class = shift;
+    print "a $class goes ", $class->sound, "!\n";
+    print "[but you can barely hear it!]\n";
+  }
 }
 
-Animal::speak('Cow');
+Mouse->speak;
+
+{ package Mouse2;
+  @ISA = qw(Animal5);
+  sub sound { 'squeak' }
+  sub speak {
+    my $class = shift;
+    Animal5::speak($class);
+    print "[but you can barely hear it!]\n";
+  }
+}
+
+Mouse2->speak;
+
+{ package Mouse3;
+  @ISA = qw(Animal5);
+  sub sound { 'squeak' }
+  sub speak {
+    my $class = shift;
+    $class->Animal5::speak(@_);
+    print "[but you can barely hear it!]\n";
+  }
+}
+
+Mouse3->speak;
+
+
+{ package Animal6;
+  sub speak {
+    my $class = shift;
+    print "a $class goes ", $class->sound, "!\n";
+  }
+}
+
+{ package Mouse4;
+  @ISA = qw(Animal6);
+  sub sound { 'squeak' }
+  sub speak {
+    my $class = shift;
+    $class->SUPER::speak;
+    print "[but you can barely hear it!]\n";
+  }
+}
+
+Mouse4->speak;
+
+#my $beast2 = 'Class';
+#$beast2->method(@args);
+
+#class::method('Class', @args);
