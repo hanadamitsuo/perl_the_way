@@ -195,3 +195,4 @@ my @horses = map Horse2->named($_), ('Trigger', 'Mr. Ed');
 my @racehorses = RaceHorse->named('Billy Boy');
 print "We seen:\n", map(" $_\n", Animal2->reqistered);
 say "END";
+
