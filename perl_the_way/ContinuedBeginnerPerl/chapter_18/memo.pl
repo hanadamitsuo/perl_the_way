@@ -87,3 +87,48 @@ close T;
 is(join("",@contents), "Trigger eats hay\n","Trigger ate properly");
 
 END { unlink "test.out" }
+
+use Test::Output;
+
+sub print_hello { print STDOUT "Welcome Aboard\n" }
+sub print_error { print STDER "Theres a hole in the ship" }
+
+stdout_is( \&print_hello, "Welocome Aboard\n");
+stderr_like( \&print_error, qr/ship/);
+
+stdout_is( sub { print_hello, "Welocome Aboard\n"}, "Welcome Aboard");
+
+use Test::Warn;
+
+sub add_letters { "Skipper" + "Gilligan" }
+
+use Test::NoWarnings;
+
+my ($n, $m);
+my $sum = $n + $m;
+
+use Test::MockObject;
+
+my $Minnow = Test::MockObject->new();
+
+$Minnow->set_true( 'engines_on' );
+$Minnow->set_true( 'has_maps' );
+$Minnow->set_true( 'moored_to_dock' );
+
+ok( $Minnow->engines_on, "English are on" );
+ok ( ! $Minnow->moored_to_dock, "Not moored to the dock");
+
+my $Quartermaster = Island::Plotting->new();
+
+ok($Quartermaster->has_maps, "We can find the maps" );
+
+my $db = Test::MockObject->new();
+
+$db->mock( list_names => sub { qw( Gilligan Skipper Professor )});
+
+my @named = $db->list_names;
+
+is( scalar @named, 3, 'Got the right number of result');
+is( $named[0], 'Gilligan', 'The first result is Gilligan');
+
+print "the name are @named\n";
