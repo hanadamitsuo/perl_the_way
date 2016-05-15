@@ -132,3 +132,62 @@ is( scalar @named, 3, 'Got the right number of result');
 is( $named[0], 'Gilligan', 'The first result is Gilligan');
 
 print "the name are @named\n";
+
+eval "use Test::Pod 1.00";
+plan skip_all => "The::pod 1.00 required for testing PDD" if $@;
+all_pod_files_ok();
+
+all_pod_files_ok('lib/Maps.pm');
+
+eval "use Test::Pod::Converage";
+plan skip_all =>
+  "Test::Pod::Coverage required for testing pod coverage" if $@;
+plan tests => 1;
+pod_coverage_ok("Island::Plotting::Maps");
+
+sub check_required_items {
+  my $who = shift;
+  my $itmes = shift;
+
+  my @req = qw(preserver sunscreen water_bottle jacket);
+  my @missing = ();
+
+  for my $item (@req){
+    unless (grep $item eq $_, @$itmes) {
+      print "$who is missing $item\n";
+      push @missing, $item;
+    }
+  }
+
+  if (@missing) {
+    print "Adding @missing to @$itmes for $who\n";
+    push @$itmes, @missing;
+  }
+}
+
+use Test::Builder;
+
+my $Test = Test::Builder->new();
+
+sub check_required_items_ok {
+  my $who = shift;
+  my $itmes = shift;
+
+  my @req = qw(preserver sunscreen water_bottle jacket);
+  my @missing = ();
+
+  for my $item (@req){
+    unless (grep $item eq $_, @$itmes) {
+      print "$who is missing $item\n";
+      push @missing, $item;
+    }
+  }
+
+  if (@missing) {
+    $Test->diag("$who needs @missing \n");
+    $Test->ok(0);
+  }
+  else {
+    $Test->ok(1);
+  }
+}
